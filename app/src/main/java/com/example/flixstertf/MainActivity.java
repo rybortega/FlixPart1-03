@@ -12,6 +12,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixstertf.adapters.MovieAdapter;
 import com.example.flixstertf.models.Movie;
+import com.example.flixstertf.models.MovieReview;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.jgabrielfreitas.core.BlurImageView;
@@ -29,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -43,7 +45,8 @@ import okhttp3.Headers;
 public class MainActivity extends AppCompatActivity {
 
     public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-    public static final String GET_MOVIE_REVIEWS = "https://api.themoviedb.org/3/movie/get-movie-reviews?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    public static String GET_MOVIE = "https://api.themoviedb.org/3/movie/";
+    public static final String YOUTUBE_API_KEY = "AIzaSyASrPTiolw-fl8G6SV6N-MLb0vE-0657Ak";
     public static final String TAG = "MainActivity";
     List<Movie> movies;
 
@@ -51,35 +54,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         RecyclerView rvMovies = findViewById(R.id.rvMovies);
         movies = new ArrayList<>();
 
-        MovieAdapter.OnClickListener onClickListener = new MovieAdapter.OnClickListener() {
-            @Override
-            public void onItemClicked(int position) {
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_layout);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                TextView tvOverview = dialog.findViewById(R.id.tvOverview);
-                tvOverview.setText(movies.get(position).getOverview());
-
-                ImageView ivPoster2 = dialog.findViewById(R.id.ivPoster2);
-                ImageView ivPoster3 = dialog.findViewById(R.id.ivPoster3);
-                Glide.with(MainActivity.this).load(movies.get(position).getPosterPath()).into(ivPoster2);
-                Glide.with(MainActivity.this).load(movies.get(position).getPosterPath()).into(ivPoster3);
-
-                dialog.show();
-            }
-        };
-
-        MovieAdapter movieAdapter = new MovieAdapter(movies, this, onClickListener);
+        AsyncHttpClient client = new AsyncHttpClient();
+        MovieAdapter movieAdapter = new MovieAdapter(movies, this);
 
         rvMovies.setAdapter(movieAdapter);
         rvMovies.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
 
-        AsyncHttpClient client = new AsyncHttpClient();
+
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -105,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, " onFailure");
             }
         });
+
+
+
 
 
     }

@@ -12,7 +12,9 @@
         android:id="@+id/cvPoster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
     <ImageView
         android:id="@+id/ivPoster"
@@ -31,6 +33,7 @@
         android:layout_below="@+id/cvPoster"
         android:textAlignment="center"
         android:textSize="18sp"
+        android:textColor="@color/white"
         tools:text="Movie Title" />
 
 </RelativeLayout>

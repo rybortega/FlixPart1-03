@@ -22,4 +22,11 @@
     <style name="Theme.FlixsterTF.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FlixsterTF.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar.Indicator">
+        <item name="colorAccent">#FFFFFF</item>
+        <item name="android:colorControlNormal">#FFFFFF</item>
+        <item name="sizePercent">5</item>
+    </style>
+
 </resources>
